@@ -13,11 +13,11 @@ from eval import eval_net
 from unet import UNet
 
 from torch.utils.tensorboard import SummaryWriter
-from utils.dataset import BasicDataset
+from utils.dataset import BasicDataset, CarvanaDataset
 from torch.utils.data import DataLoader, random_split
 
-dir_img = 'data/imgs/'
-dir_mask = 'data/masks/'
+dir_img = '../temp_data/kaggle/car_data/imgs/'
+dir_mask = '../temp_data/kaggle/car_data/masks/'
 dir_checkpoint = 'checkpoints/'
 
 
@@ -30,7 +30,7 @@ def train_net(net,
               save_cp=True,
               img_scale=0.5):
 
-    dataset = BasicDataset(dir_img, dir_mask, img_scale)
+    dataset = CarvanaDataset(dir_img, dir_mask, img_scale)
     n_val = int(len(dataset) * val_percent)
     n_train = len(dataset) - n_val
     train, val = random_split(dataset, [n_train, n_val])

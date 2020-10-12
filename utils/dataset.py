@@ -6,6 +6,7 @@ import torch
 from torch.utils.data import Dataset
 import logging
 from PIL import Image
+import xarray as xr
 
 
 class BasicDataset(Dataset):
@@ -69,3 +70,18 @@ class BasicDataset(Dataset):
 class CarvanaDataset(BasicDataset):
     def __init__(self, imgs_dir, masks_dir, scale=1):
         super().__init__(imgs_dir, masks_dir, scale, mask_suffix='_mask')
+
+        
+class ncDataset(Dataset):
+    def __init__(self, X_dir, y_dir):
+        self.X_global = xr.open_dataset(X_dir)
+        self.y_local = xr.open_dataset(y_dir)
+        print('change')
+        
+    def __len__(self):
+        return len(self.X_global.sizes['sample_num'])
+    
+    def __getitem__(self, i):
+        pass
+        
+        
